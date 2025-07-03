@@ -30,8 +30,9 @@ app.post('/api/contact', async (req, res) => {
   console.log("New contact form submission:", { name, email, message }); // 👈 Log incoming data
 
   try {
-    await Contact.create({ name, email, message });
-    res.status(201).json({ message: 'Submitted successfully' });
+   const db = await Contact.create({ name, email, message });
+   db.save();
+  res.status(201).json({ message: 'Submitted successfully' });
   } catch (err) {
     console.error('Error saving to DB:', err);
     res.status(500).json({ error: 'Internal server error' });
